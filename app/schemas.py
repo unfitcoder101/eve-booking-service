@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from app.models import BookingStatus, PaymentStatus
+
 from pydantic import BaseModel, EmailStr, Field
 
 
@@ -45,3 +49,43 @@ class CentreOut(BaseModel):
     name: str
     location: str
     tests: list[OfferingOut]
+
+class BookingCreate(BaseModel):
+    centre_id: int
+    test_id: int
+    appointment_at: datetime
+
+
+class BookingOut(BaseModel):
+    id: int
+    centre_id: int
+    centre_name: str
+    test_id: int
+    test_name: str
+    appointment_at: datetime
+    amount: float
+    status: BookingStatus
+    created_at: datetime
+
+class PaymentCreate(BaseModel):
+    booking_id: int
+    simulate: PaymentStatus | None = None  # optional: force an outcome (for testing)
+
+
+class PaymentOut(BaseModel):
+    id: int
+    booking_id: int
+    amount: float
+    status: PaymentStatus
+    provider_reference: str
+    booking_status: BookingStatus
+
+
+class WebhookIn(BaseModel):
+    event_id: str = Field(min_length=1, max_length=100)
+    provider_reference: str = Field(min_length=1, max_length=100)
+    status: PaymentStatus
+
+
+class WebhookOut(BaseModel):
+    result: str
