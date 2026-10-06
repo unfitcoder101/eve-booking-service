@@ -1,34 +1,34 @@
-import enum
-from datetime import datetime, timezone
+import enum                     
+from datetime import datetime, timezone                         
 
-from sqlalchemy import DateTime, Enum, ForeignKey, JSON, Numeric, String, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import DateTime, Enum, ForeignKey, JSON, Numeric, String, UniqueConstraint                   
+from sqlalchemy.orm import Mapped, mapped_column, relationship                       
 
-from app.database import Base
-
-
-def now():
-    return datetime.now(timezone.utc)
+from app.database import Base                        
 
 
-class BookingStatus(str, enum.Enum):
-    PENDING = "PENDING"
-    CONFIRMED = "CONFIRMED"
-    FAILED = "FAILED"
-    CANCELLED = "CANCELLED"
+def now():                
+    return datetime.now(timezone.utc)                   
 
 
-class PaymentStatus(str, enum.Enum):
+class BookingStatus(str, enum.Enum):                    
+    PENDING = "PENDING"                                
+    CONFIRMED = "CONFIRMED"                 
+    FAILED = "FAILED"              
+    CANCELLED = "CANCELLED"                
+
+
+class PaymentStatus(str, enum.Enum):                      
     SUCCESS = "SUCCESS"
-    FAILED = "FAILED"
+    FAILED = "FAILED"                      
 
 
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
-    password_hash: Mapped[str] = mapped_column(String(255))
-    full_name: Mapped[str] = mapped_column(String(100))
+    id: Mapped[int] = mapped_column(primary_key=True)                   
+    email: Mapped[str] = mapped_column(String(255), unique=True, index=True)                       
+    password_hash: Mapped[str] = mapped_column(String(255))                
+    full_name: Mapped[str] = mapped_column(String(100))                 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
