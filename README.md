@@ -47,6 +47,7 @@ The tests use a separate database (`eve_booking_test`) that is wiped for every t
 | GET | `/bookings/{id}` | JWT | One of my bookings |
 | POST | `/bookings/{id}/cancel` | JWT | Cancel a booking |
 | POST | `/payments/` | JWT | Simulated payment (SUCCESS or FAILED) |
+| GET | `/payments/{id}` | JWT | One of my payments |
 | POST | `/payments/webhook/` | secret header | Payment status update from the provider |
 
 ### Example requests
