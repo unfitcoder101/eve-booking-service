@@ -110,16 +110,3 @@ def get_payment(
     if not payment or booking.user_id != user.id:
         raise HTTPException(404, "Payment not found")
     return to_out(payment, booking)
-
-@router.get("/{payment_id}", response_model=PaymentOut)
-def get_payment(
-    payment_id: int,
-    db: Session = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    payment = db.get(Payment, payment_id)
-    booking = db.get(Booking, payment.booking_id) if payment else None
-    # Same 404 for "doesn't exist" and "belongs to someone else"
-    if not payment or booking.user_id != user.id:
-        raise HTTPException(404, "Payment not found")
-    return to_out(payment, booking)

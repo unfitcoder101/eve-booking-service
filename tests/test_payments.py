@@ -96,23 +96,6 @@ def test_late_failed_webhook_cannot_undo_success(client, user, booking):
     webhook(client, "evt_9", ref, status="FAILED")
     assert status_of(client, user, booking["id"]) == "CONFIRMED"
 
-
-def test_get_own_payment(client, user, booking):
-    payment = pay(client, user, booking["id"], "SUCCESS").json()
-    r = client.get(f"/payments/{payment['id']}", headers=user)
-    assert r.status_code == 200
-    assert r.json()["provider_reference"] == payment["provider_reference"]
-
-
-def test_cannot_view_someone_elses_payment(client, user, booking, other_user):
-    payment = pay(client, user, booking["id"], "SUCCESS").json()
-    assert client.get(f"/payments/{payment['id']}", headers=other_user).status_code == 404
-
-
-def test_unknown_payment_returns_404(client, user):
-    assert client.get("/payments/99999", headers=user).status_code == 404
-
-
 def test_get_own_payment(client, user, booking):
     payment = pay(client, user, booking["id"], "SUCCESS").json()
     r = client.get(f"/payments/{payment['id']}", headers=user)
