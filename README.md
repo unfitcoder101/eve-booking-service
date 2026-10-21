@@ -78,14 +78,14 @@ curl -X POST localhost:8000/payments/webhook/ \
 
 ## Database design
 
-| Table | Purpose |
-|---|---|
+| Table | Purpose |                 
+|---|---|              
 | `users` | Email (unique), bcrypt password hash, name |
-| `centres` | Centre name and location |
-| `tests` | Test catalogue (unique names) |
+| `centres` | Centre name and location |              
+| `tests` | Test catalogue (unique names) |              
 | `centre_tests` | Which centre offers which test, and its price. Unique on (centre, test) |
 | `bookings` | User, centre_test, appointment time, amount, status |
-| `payments` | One row per payment attempt. `provider_reference` is unique |
+| `payments` | One row per payment attempt. `provider_reference` is unique |            
 | `webhook_events` | Every processed webhook `event_id` (unique) plus its payload |
 
 Design choices:
@@ -117,13 +117,13 @@ Design choices:
 - Paying a confirmed or cancelled booking: `409`
 - Wrong webhook secret: `401`; unknown payment reference: `404`
 
-## Assumptions
+## Assumptions               
 
 - Payments are all in a single currency (INR) and a full payment is required to confirm.
 - Any logged-in user can create centres and tests (there is no admin role).
 - Naive appointment times are treated as UTC.
 - A failed payment may be retried on the same booking.
-
+               
 ## What I would improve with more time
 
 - Roles (admin vs patient) for managing centres and tests
@@ -131,4 +131,4 @@ Design choices:
 - Verify webhooks with an HMAC signature and timestamp instead of a shared secret
 - Slot capacity per centre to prevent double booking the same time
 - Refunds when a confirmed booking is cancelled
-- Docker and docker-compose, Redis caching for centre listings, rate limiting on login, and structured logging
+- Docker and docker-compose, Redis caching for centre listings, rate limiting on login, and structured logging                 
