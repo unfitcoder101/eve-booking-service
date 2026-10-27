@@ -49,9 +49,9 @@ The tests use a separate database (`eve_booking_test`) that is wiped for every t
 | POST | `/payments/` | JWT | Simulated payment (SUCCESS or FAILED) |
 | GET | `/payments/{id}` | JWT | One of my payments |
 | POST | `/payments/webhook/` | secret header | Payment status update from the provider |
-
+                     
 ### Example requests
-
+                                    
 ```bash
 # Sign up and log in
 curl -X POST localhost:8000/auth/signup -H "Content-Type: application/json" \
@@ -76,7 +76,7 @@ curl -X POST localhost:8000/payments/webhook/ \
 # -> {"result":"processed"}   (sending it again -> {"result":"duplicate_ignored"})
 ```
 
-## Database design
+## Database design                             
 
 | Table | Purpose |                 
 |---|---|              
@@ -88,7 +88,7 @@ curl -X POST localhost:8000/payments/webhook/ \
 | `payments` | One row per payment attempt. `provider_reference` is unique |            
 | `webhook_events` | Every processed webhook `event_id` (unique) plus its payload |
 
-Design choices:
+Design choices:                          
 - **Price is copied into the booking** when it is created, so later price changes never alter past bookings, and the client can never choose its own price.
 - **Tests and centres are separate tables joined by `centre_tests`**, because the same test (e.g. Blood Sugar) is offered by many centres at different prices.
 - **Money uses `NUMERIC(10,2)`** in the database.
