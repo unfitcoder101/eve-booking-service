@@ -1,4 +1,4 @@
-# EVE Booking Service
+# Made for Eve Booking Service
 
 Backend for booking diagnostic tests, with a simulated payment service and an idempotent payment webhook. Built with FastAPI, PostgreSQL and SQLAlchemy.
 
